@@ -1,8 +1,7 @@
 package grub.info
 
-import grub.structure.DataFrame
-import org.breeze.stats.structure.DataFrame
-
+import grub.structure.{ArrayBasedIndex, DataFrame}
+import grub.stats.BasicStatistic._
 
 object Information {
 
@@ -17,11 +16,15 @@ object Information {
     def head(n: Int = 5): DataFrame[V] = DataFrame(dataFrame.data.map(x => x.take(n)), dataFrame.columns.all)
 
 
-//    def describe: DataFrame[V] = {
-//      dataFrame.data
-//    }
+    def describe: Unit = {
+    //DataFrame[V] = {
+      val columns = dataFrame.columns
+      val arr = Array("count", "mean", "std", "min", "25%", "50%", "75%", "max")
+      val index = ArrayBasedIndex(arr)
+//      val data: List[(Any, Any)] = dataFrame.mean()
 
+
+    }
 
   }
-
 }

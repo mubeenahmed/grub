@@ -21,10 +21,10 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
     val dataFrame2 = DataFrame[String](data = List(List("A","B","C","D")))
 
     dataFrame1.data(0) should be (List(1,2,3,4))
-    dataFrame1.columns.get(0) should be (0)
+    dataFrame1.columns.get("0") should be (0)
 
     dataFrame2.data(0) should be (List("A","B","C","D"))
-    dataFrame2.columns.get(0) should be (0)
+    dataFrame2.columns.get("0") should be (0)
 
   }
 
@@ -37,13 +37,13 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
 
     val dataFrame = DataFrame(mixed)
 
-    val zero = dataFrame.columns.get(0)
+    val zero = dataFrame.columns.get("0")
     dataFrame.data(zero) should be (List(1,2,3,5))
 
-    val one = dataFrame.columns.get(1)
+    val one = dataFrame.columns.get("1")
     dataFrame.data(one) should be (List("A", "B", "C", "D"))
 
-    val second = dataFrame.columns.get(2)
+    val second = dataFrame.columns.get("2")
     dataFrame.data(second) should be (List(20.1, 24.1, 24.5, 26.9))
 
   }
@@ -52,7 +52,7 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
     val list = List(1,2,3,5) //column 1
     val dataFrame = DataFrame(List(list))
 
-    the [IllegalArgumentException] thrownBy(dataFrame.columns.get(1)) should have message ("No valid key for column 1")
+    the [IllegalArgumentException] thrownBy(dataFrame.columns.get("1")) should have message ("No valid key for column 1")
   }
 
   it should "name columns" in {
@@ -78,7 +78,11 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
     val data = List(list, list2)
 
     val dataFrame = DataFrame(data, columns)
-    println(dataFrame.index.index)
+
+    dataFrame.index.index.get(0) should be (Some(0))
+    dataFrame.index.index.get(1) should be (Some(1))
+    dataFrame.index.index.get(2) should be (Some(2))
+    dataFrame.index.index.get(3) should be (Some(3))
   }
 
   it should "create index when RangeIndex is give" in {
@@ -90,6 +94,11 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
     val data = List(list, list2)
 
     val dataFrame = DataFrame(data, columns, RangeIndex(ends = list.size))
-    println(dataFrame.index.index)
+
+    dataFrame.index.index.get(0) should be (Some(0))
+    dataFrame.index.index.get(1) should be (Some(1))
+    dataFrame.index.index.get(2) should be (Some(2))
+    dataFrame.index.index.get(3) should be (Some(3))
+
   }
 }
