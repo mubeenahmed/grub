@@ -7,8 +7,8 @@ class DataFrame[V](val data: Seq[Seq[V]],
 
   def locate[T](name: T): DataFrame[V] = {
     val foundIndex = index.index.getOrElse(name, throw new IllegalArgumentException(s"No valid key for index ${name}"))
-    val list: Seq[V] = data.map(x => x(foundIndex))
-    DataFrame(Seq(list), columns.all, index)
+    val list: Seq[Seq[V]] = data.map(x => Seq(x(foundIndex)))
+    DataFrame(list, columns.all, index)
   }
 
   def getWithColumns(names: String*): DataFrame[V] = {
