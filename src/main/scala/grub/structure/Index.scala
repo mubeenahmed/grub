@@ -11,7 +11,7 @@ trait Index {
 case class RangeIndex(start: Int = 0, ends: Int) extends Index {
   override val index: mutable.LinkedHashMap[Any, Int] = {
     val indices: mutable.LinkedHashMap[Any, Int] = new mutable.LinkedHashMap()
-    LazyList.range(start, ends).foreach(i => indices.put(i, i))
+    LazyList.range(start, ends).zipWithIndex.foreach(i => indices.put(i._1, i._2))
     indices
   }
 }
@@ -35,8 +35,3 @@ case class ArrayBasedIndex[T](arr: Array[T]) extends Index {
 case object EmptyIndex extends Index {
   override val index: mutable.LinkedHashMap[Any, Int] = new mutable.LinkedHashMap[Any, Int]()
 }
-
-//object Index {
-//  def apply(x: RangeIndex): L = x.index
-//}
-

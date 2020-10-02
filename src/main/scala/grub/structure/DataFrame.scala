@@ -12,7 +12,6 @@ class DataFrame[V](val data: Seq[Seq[V]],
   }
 
   def getWithColumns(names: String*): DataFrame[V] = {
-    //TODO write unit test
     val columnIndex: Seq[Int] = names.map(x => columns.get(x))
     val selectedColumns = columnIndex.map(x => data(x))
     DataFrame(selectedColumns, names, index)
