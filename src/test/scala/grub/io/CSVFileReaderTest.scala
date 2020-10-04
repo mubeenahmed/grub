@@ -4,7 +4,7 @@ import grub.io
 import grub.structure.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-import grub.info.Information.Information
+import grub.stats.Information.InformationImplicits
 
 class CSVFileReaderTest extends AnyFlatSpec with should.Matchers
 {
@@ -59,7 +59,7 @@ class CSVFileReaderTest extends AnyFlatSpec with should.Matchers
   "Reading from different data csv" should "return same result" in {
     val csvReadingOption = CSVReadOption(fileName)
     val df = csvReader2.read(csvReadingOption)
-    df.describe
+    df.data should be(Seq(Seq( 1, "abc"), Seq(4, ""), Seq(0.1, 1)))
   }
 
   trait MockFileSystem extends GrubIO {

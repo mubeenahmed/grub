@@ -3,7 +3,7 @@ package grub.structure
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 
-import grub.info.Information._
+import grub.stats.Information._
 
 class DataFrameInformationTest  extends AnyFlatSpec with should.Matchers
 {

@@ -4,10 +4,19 @@ import java.time.LocalDateTime
 
 import scala.collection.mutable
 
+/**
+ * Index with unimplemented index. To create your own index extends this trait. The index is the LinkedHasHap[Any, Int]
+ * similar to [[grub.structure.Columns]]
+ */
 trait Index {
   val index: mutable.LinkedHashMap[Any, Int]
 }
 
+/**
+ * RangeIndex is index with start and end of the index.
+ * @param start
+ * @param ends
+ */
 case class RangeIndex(start: Int = 0, ends: Int) extends Index {
   override val index: mutable.LinkedHashMap[Any, Int] = {
     val indices: mutable.LinkedHashMap[Any, Int] = new mutable.LinkedHashMap()
@@ -16,6 +25,11 @@ case class RangeIndex(start: Int = 0, ends: Int) extends Index {
   }
 }
 
+/**
+ * The datatime index gets the LocalDateTime with periods, it will return the index in datetime
+ * @param start
+ * @param period
+ */
 case class DateTimeIndex(start: LocalDateTime, period: Int) extends Index {
   override val index: mutable.LinkedHashMap[Any, Int] = {
     val indicies: mutable.LinkedHashMap[Any, Int] = new mutable.LinkedHashMap()
@@ -24,6 +38,11 @@ case class DateTimeIndex(start: LocalDateTime, period: Int) extends Index {
   }
 }
 
+/**
+ * The index will return index by the array provided.
+ * @param arr
+ * @tparam T
+ */
 case class ArrayBasedIndex[T](arr: Array[T]) extends Index {
   override val index: mutable.LinkedHashMap[Any, Int] = {
     val indicies: mutable.LinkedHashMap[Any, Int] = new mutable.LinkedHashMap()
@@ -32,6 +51,9 @@ case class ArrayBasedIndex[T](arr: Array[T]) extends Index {
   }
 }
 
+/**
+ * The index with empty LinkedHashMap[Any, Int]
+ */
 case object EmptyIndex extends Index {
   override val index: mutable.LinkedHashMap[Any, Int] = new mutable.LinkedHashMap[Any, Int]()
 }

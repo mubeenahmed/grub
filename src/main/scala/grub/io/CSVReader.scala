@@ -5,18 +5,33 @@ import java.util.regex.Pattern
 import grub.structure.{ArrayBasedIndex, DataFrame, Index}
 
 import scala.io.Source
-import scala.util.matching.Regex
 
-
+/**
+ * CSVReadOption is the data structure which is holding information about the how to read CSV files
+ * @param fileName The name and the path of the file
+ * @param delimiter The delimiter for the csv file
+ * @param includeHeader Should include the heading of the csv, or you are providing your own
+ * @param names The names of the columns, if you don't want csv to read columns by own
+ * @param indexCol The name of index, if you want to make a column act as index
+ */
 case class CSVReadOption(fileName: String,
                             delimiter: String = ";",
                             includeHeader: Boolean = true,
                             names: Option[List[String]] = None,
                             indexCol: Option[String] = None)
+
+/**
+ * This will read the csv file and convert them into the data frame
+ */
 class CSVRead {
 
   this: GrubIO =>
 
+  /**
+   * Reads the csv file
+   * @param option
+   * @return
+   */
   def read(option: CSVReadOption): DataFrame[Any] = {
     val src = source(option.fileName)
     val columnNames = includeHeader(src, option)
@@ -77,11 +92,16 @@ class CSVRead {
 
 }
 
-
+/**
+ * GrubIO can be used if you want to implement your on source
+ */
 trait GrubIO {
   def source(fileName: String): Iterator[String]
 }
 
+/**
+ * FileSystem to extract and read the file
+ */
 trait FileSystem extends GrubIO {
   override def source(fileName: String): Iterator[String] = Source.fromFile(fileName).getLines
 }
