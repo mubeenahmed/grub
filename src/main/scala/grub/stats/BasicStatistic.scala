@@ -5,6 +5,9 @@ import grub.structure.DataFrame
 
 import shapeless._
 
+/**
+ * Gets the methods for calculating mean, std, variance, max, min, and so on of columns data in dataframe
+ */
 object BasicStatistic {
 
   private val listOfIntType = TypeCase[Seq[Int]]
@@ -14,6 +17,16 @@ object BasicStatistic {
   private val doubleType = TypeCase[Double]
   private val stringType = TypeCase[String]
 
+  /**
+   * Implicit helpers for [[grub.structure.DataFrame]] instances. This provide the actual implementation for basic
+   * statistic functions
+   * {{{
+   *   import BasicStatistic._
+   *   val means = df.mean()
+   * }}}
+   * @param dataFrame
+   * @tparam V
+   */
   implicit class BasicStatistic[V: Typeable](dataFrame: DataFrame[V]) {
     def mean[T]: List[(String, T)] = dataFrame
       .columns

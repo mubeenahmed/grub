@@ -4,7 +4,7 @@ import grub.io
 import grub.structure.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-import grub.info.Information.Information
+import grub.stats.Information.Information
 
 class CSVFileReaderTest extends AnyFlatSpec with should.Matchers
 {

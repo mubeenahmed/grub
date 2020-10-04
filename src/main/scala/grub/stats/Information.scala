@@ -1,11 +1,24 @@
-package grub.info
+package grub.stats
 
 import grub.structure.{ArrayBasedIndex, DataFrame}
-import grub.stats.BasicStatistic._
 import shapeless.Typeable
+import BasicStatistic._
 
+/**
+ * Gets the methods for finding insight of dataframe
+ */
 object Information {
 
+  /**
+   * Implicit helpers for [[grub.structure.DataFrame]] instances. This provide the actual implementation for
+   * dataframe information
+   * {{{
+   *   import BasicStatistic._
+   *   val means = df.mean()
+   * }}}
+   * @param dataFrame
+   * @tparam V
+   */
   implicit class Information[V: Typeable](val dataFrame: DataFrame[V])
   {
     def shape: (Int, Int) = dataFrame.data.size match {

@@ -4,7 +4,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 
 import grub.stats.BasicStatistic._
-import grub.info.Information._
+import grub.stats.Information._
 
 class BasicStatisticTest extends AnyFlatSpec with should.Matchers
 {
