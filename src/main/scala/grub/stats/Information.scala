@@ -2,7 +2,7 @@ package grub.stats
 
 import grub.structure.{ArrayBasedIndex, DataFrame}
 import shapeless.Typeable
-import BasicStatistic._
+import BasicStatistic.BasicStatisticImplicits
 
 /**
  * Gets the methods for finding insight of dataframe
@@ -19,7 +19,7 @@ object Information {
    * @param dataFrame
    * @tparam V
    */
-  implicit class Information[V: Typeable](val dataFrame: DataFrame[V])
+  implicit class InformationImplicits[V: Typeable](val dataFrame: DataFrame[V])
   {
     def shape: (Int, Int) = dataFrame.data.size match {
       case 0 => (0, 0)

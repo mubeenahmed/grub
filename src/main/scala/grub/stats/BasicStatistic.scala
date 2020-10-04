@@ -27,7 +27,7 @@ object BasicStatistic {
    * @param dataFrame
    * @tparam V
    */
-  implicit class BasicStatistic[V: Typeable](dataFrame: DataFrame[V]) {
+  implicit class BasicStatisticImplicits[V: Typeable](dataFrame: DataFrame[V]) {
     def mean[T]: List[(String, T)] = dataFrame
       .columns
       .all
