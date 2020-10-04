@@ -1,7 +1,7 @@
 package grub.io
 
 import grub.io
-import grub.structure.DataFrame
+import grub.ds.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 import grub.stats.Information.InformationImplicits

@@ -1,7 +1,7 @@
 package grub.stats
 
 import com.sun.tools.javac.code.TypeTag
-import grub.structure.DataFrame
+import grub.ds.DataFrame
 
 import shapeless._
 
@@ -18,12 +18,13 @@ object BasicStatistic {
   private val stringType = TypeCase[String]
 
   /**
-   * Implicit helpers for [[grub.structure.DataFrame]] instances. This provide the actual implementation for basic
+   * Implicit helpers for [[grub.ds.DataFrame]] instances. This provide the actual implementation for basic
    * statistic functions
    * {{{
    *   import BasicStatistic._
    *   val means = df.mean()
    * }}}
+ *
    * @param dataFrame
    * @tparam V
    */

@@ -2,12 +2,12 @@ package grub.io
 
 import java.util.regex.Pattern
 
-import grub.structure.{ArrayBasedIndex, DataFrame, Index}
+import grub.ds.{ArrayBasedIndex, DataFrame, Index}
 
 import scala.io.Source
 
 /**
- * CSVReadOption is the data structure which is holding information about the how to read CSV files
+ * CSVReadOption is the data ds which is holding information about the how to read CSV files
  * @param fileName The name and the path of the file
  * @param delimiter The delimiter for the csv file
  * @param includeHeader Should include the heading of the csv, or you are providing your own

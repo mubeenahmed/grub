@@ -1,6 +1,6 @@
 package grub.stats
 
-import grub.structure.{ArrayBasedIndex, DataFrame}
+import grub.ds.{ArrayBasedIndex, DataFrame}
 import shapeless.Typeable
 import BasicStatistic.BasicStatisticImplicits
 
@@ -10,12 +10,13 @@ import BasicStatistic.BasicStatisticImplicits
 object Information {
 
   /**
-   * Implicit helpers for [[grub.structure.DataFrame]] instances. This provide the actual implementation for
+   * Implicit helpers for [[grub.ds.DataFrame]] instances. This provide the actual implementation for
    * dataframe information
    * {{{
    *   import BasicStatistic._
    *   val means = df.mean()
    * }}}
+ *
    * @param dataFrame
    * @tparam V
    */
