@@ -1,4 +1,4 @@
-package grub.structure
+package grub.ds
 
 import scala.collection.mutable
 
@@ -25,7 +25,7 @@ class Columns(data: mutable.LinkedHashMap[String, Int])
   def all: List[String] = data.keysIterator.map(x => x.toString).toList
 }
 
-/** Factory for [[grub.structure.Columns]] instances. */
+/** Factory for [[grub.ds.Columns]] instances. */
 object Columns {
 
   /**

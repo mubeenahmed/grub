@@ -1,4 +1,4 @@
-package grub.structure
+package grub.ds
 
 import java.time.LocalDateTime
 
@@ -6,10 +6,11 @@ import scala.collection.mutable
 
 /**
  * Index with unimplemented index. To create your own index extends this trait. The index is the LinkedHasHap[Any, Int]
- * similar to [[grub.structure.Columns]]
+ * similar to [[grub.ds.Columns]]
  */
 trait Index {
   val index: mutable.LinkedHashMap[Any, Int]
+  def get[T](t: T): Int = index.getOrElse(t, throw new IllegalArgumentException(s"No index found ${t}"))
 }
 
 /**

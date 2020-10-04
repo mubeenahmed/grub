@@ -1,4 +1,4 @@
-package grub.structure
+package grub.ds
 
 /**
  * A concrete class for manipulating data in rows and column style. This class holds the data and behavior
@@ -46,7 +46,7 @@ class DataFrame[V](val data: Seq[Seq[V]],
 }
 
 /**
- * Factory for [[grub.structure.DataFrame]] instances.
+ * Factory for [[grub.ds.DataFrame]] instances.
  */
 object DataFrame
 {

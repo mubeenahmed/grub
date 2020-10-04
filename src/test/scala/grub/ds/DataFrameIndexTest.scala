@@ -1,4 +1,4 @@
-package grub.structure
+package grub.ds
 
 import java.time.LocalDateTime
 
