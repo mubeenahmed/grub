@@ -22,8 +22,19 @@ class DataFrame[V](val data: Seq[Seq[V]],
    * @return
    */
   def locate[T](name: T): DataFrame[V] = {
-    val foundIndex = index.index.getOrElse(name, throw new IllegalArgumentException(s"No valid key for index ${name}"))
+    val foundIndex = index.get(name)
     val list: Seq[Seq[V]] = data.map(x => Seq(x(foundIndex)))
+    DataFrame(list, columns.all, index)
+  }
+
+  /**
+   * Locate by index of seq of data. It can be used if row index is known
+   * @param seqIndex
+   * @tparam T
+   * @return
+   */
+  def locateRow[T](seqIndex: Int): DataFrame[V] = {
+    val list: Seq[Seq[V]] = data.map(x => Seq(x(seqIndex)))
     DataFrame(list, columns.all, index)
   }
 
@@ -32,7 +43,7 @@ class DataFrame[V](val data: Seq[Seq[V]],
    * @param names
    * @return
    */
-  def getWithColumns(names: String*): DataFrame[V] = {
+  def columns(names: String*): DataFrame[V] = {
     val columnIndex: Seq[Int] = names.map(x => columns.get(x))
     val selectedColumns = columnIndex.map(x => data(x))
     DataFrame(selectedColumns, names, index)
@@ -42,7 +53,7 @@ class DataFrame[V](val data: Seq[Seq[V]],
    * To get single column in the dataframe
    * @return
    */
-  def singleColumn: Seq[V] = data(0)
+  def single: Seq[V] = data(0)
 }
 
 /**

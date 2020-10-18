@@ -19,11 +19,13 @@ object CrudOps {
     private def newRow(row: Seq[V]): DataFrame[V] = {
       val newData = for {
         ri <- row.zipWithIndex
-        newRowAdded = dataFrame.data(ri._2) :+ ri._1
+        newRowAdded = if(dataFrame.data.size > 0) dataFrame.data(ri._2) :+ ri._1 else Seq() :+ ri._1
       } yield newRowAdded
 
       val addingIndex = dataFrame.index.index.size + 1
-      dataFrame.index.index.put(addingIndex, dataFrame.data(0).size)
+
+      if(dataFrame.data.size > 0)
+        dataFrame.index.index.put(addingIndex, dataFrame.data(0).size)
       DataFrame(newData, dataFrame.columns.all, dataFrame.index)
     }
 
@@ -50,6 +52,19 @@ object CrudOps {
       val columns = dataFrame.columns.all.filter(x => x != colName)
       DataFrame(withRemovedRow, columns, dataFrame.index)
     }
+
+    def append(df: DataFrame[V]): DataFrame[V] = {
+      if(df.columns.all.size != dataFrame.columns.all.size) {
+        throw new IllegalArgumentException("DataFrame found uneven")
+      }
+      val appends: Seq[Seq[V]] = for {
+        data <- dataFrame.data.zipWithIndex
+        append = data._1 ++ df.data(data._2)
+      } yield append
+      dataFrame.index.index.addAll(df.index.index)
+      DataFrame(appends, df.columns.all, dataFrame.index)
+    }
+
   }
 
 }
