@@ -3,9 +3,27 @@ package grub.ds
 import shapeless.Typeable
 import grub.ds.CrudOps.CrudOpsImplicit
 
+/**
+ * To merge different dataframe with some common conditions
+ */
 object Join {
 
+  /**
+   * Implicit helpers for [[grub.ds.DataFrame]] instances. This provide the actual implementation for Join function
+   * @param dataFrame
+   * @tparam V
+   */
   implicit class JoinImplicit[V: Typeable](dataFrame: DataFrame[V]) {
+
+    /**
+     * Inner join, returns the common elements between the two dataframe
+     * @param df
+     * @param leftColumn
+     * @param rightColumn
+     * @param ops
+     * @tparam T
+     * @return
+     */
     def inner[T](df: DataFrame[V], leftColumn: String, rightColumn: String, ops: (T, T) => Boolean): DataFrame[V] = {
       val leftColumnData: Seq[V] = dataFrame.columns(leftColumn).single
       val rightColumnData: Seq[V] = df.columns(rightColumn).single
