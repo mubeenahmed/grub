@@ -113,12 +113,21 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
     byTwoIndex.data(1)(0) should be (24.1)
   }
 
+  it should "locate list by seq index" in {
+    val columns = Seq[String]("Serial", "Value")
+    val data = List(singleIntList, singleDoubleList)
+    val dataFrame = DataFrame(data, columns, RangeIndex(ends = singleIntList.size))
+
+    val row = dataFrame.locateRow(0)
+    row.data should be (Seq(Seq(1), Seq(20.1)))
+  }
+
   it should "return column(s)" in {
     val columns = Seq[String]("Serial", "Value")
     val data = List(singleIntList, singleDoubleList)
     val dataFrame = DataFrame(data, columns, RangeIndex(ends = singleIntList.size))
 
-    val byColumn = dataFrame.getWithColumns("Serial", "Value")
+    val byColumn = dataFrame.columns("Serial", "Value")
     byColumn.data(0)(0) should be (1)
     byColumn.data(0)(1) should be (2)
     byColumn.data(0)(2) should be (3)
@@ -127,4 +136,5 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
     byColumn.data(1)(1) should be (24.1)
     byColumn.data(1)(2) should be (24.5)
   }
+
 }

@@ -104,8 +104,8 @@ class BasicStatisticTest extends AnyFlatSpec with should.Matchers
     val maxs = df.locate("max")
     val mins = df.locate("min")
 
-    val int = df.getWithColumns("0").singleColumn
-    val dbl = df.getWithColumns("1").singleColumn
-    val str = df.getWithColumns("2").singleColumn
+    val int = df.columns("0").single
+    val dbl = df.columns("1").single
+    val str = df.columns("2").single
   }
 }

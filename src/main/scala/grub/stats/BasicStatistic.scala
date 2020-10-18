@@ -32,17 +32,17 @@ object BasicStatistic {
     def mean[T]: List[(String, T)] = dataFrame
       .columns
       .all
-      .map(x => (x, mean(dataFrame.getWithColumns(x).singleColumn)))
+      .map(x => (x, mean(dataFrame.columns(x).single)))
 
     def std[T](): List[(String, T)] = dataFrame
       .columns
       .all
-      .map(x => (x, std(dataFrame.getWithColumns(x).singleColumn)))
+      .map(x => (x, std(dataFrame.columns(x).single)))
 
     def variance[T]: List[(String, T)] = dataFrame
       .columns
       .all
-      .map(x => (x, variance(dataFrame.getWithColumns(x).singleColumn)))
+      .map(x => (x, variance(dataFrame.columns(x).single)))
 
     def mean[T](x: Seq[V]): T = (x match {
         case listOfIntType(l) => l.reduce(_ + _).toDouble / l.size
@@ -77,11 +77,11 @@ object BasicStatistic {
 
     def min(): List[(String, V)] =
       dataFrame.columns.all
-      .map(x => (x, min(dataFrame.getWithColumns(x).singleColumn)))
+      .map(x => (x, min(dataFrame.columns(x).single)))
 
     def max(): List[(String, V)] =
       dataFrame.columns.all
-      .map(x => (x, max(dataFrame.getWithColumns(x).singleColumn)))
+      .map(x => (x, max(dataFrame.columns(x).single)))
 
     def min(value: Seq[V]): V = value match {
       case listOfIntType(l) => l.min.asInstanceOf[V]
