@@ -39,7 +39,7 @@ For having behavior to manipluate different data, you have to import some implic
 
 ```
 import grub.ds.BasicStatistic.BasicStatisticImplicits
-import grub.ds.BasicStatistic.BasicStatisticImplicits
+import grub.ds.BasicStatistic.InformationImplicits
 
 // ... 
 df.describe // This will return the dataframe with mean, standard deviation, min, and max information. 
@@ -66,4 +66,5 @@ There are other method to manipulate different data in dataframe for example
 5. ```def append(df: DataFrame[V]): DataFrame[V]```
 6. ```def === [T <: V](value: T): DataFrame[V]```
 7. ```def inner[T](df: DataFrame[V], leftColumn: String, rightColumn: String, ops: (T, T) => Boolean): DataFrame[V]```
+8. ```def left[T](df: DataFrame[V], leftColumn: String, rightColumn: String, ops: (T, T) => Boolean): DataFrame[V]```
 
