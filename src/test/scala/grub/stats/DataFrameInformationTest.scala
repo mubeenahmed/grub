@@ -1,9 +1,9 @@
-package grub.ds
+package grub.stats
 
+import grub.ds.DataFrame
+import grub.stats.Information._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
-
-import grub.stats.Information._
 
 class DataFrameInformationTest  extends AnyFlatSpec with should.Matchers
 {

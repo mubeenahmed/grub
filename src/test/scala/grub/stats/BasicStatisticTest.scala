@@ -1,10 +1,10 @@
-package grub.ds
+package grub.stats
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should
-
+import grub.ds.DataFrame
 import grub.stats.BasicStatistic._
 import grub.stats.Information._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
 class BasicStatisticTest extends AnyFlatSpec with should.Matchers
 {
