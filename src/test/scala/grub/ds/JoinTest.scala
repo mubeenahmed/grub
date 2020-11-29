@@ -8,8 +8,13 @@ import grub.ds.Join.JoinImplicit
 class JoinTest   extends AnyFlatSpec with should.Matchers
 {
 
-  val country = Seq(Seq(1,2,3,4,5), Seq("USA", "Pakistan", "Germany", "Turkey", "France"))
-  val city = Seq(Seq(1,2,3,4,5,6,7), Seq("New York", "Karachi", "Lahore", "Berlin", "Izmir", "Munchen", "California"), Seq(1,2,2,3,4,3,1), Seq(19, 32, 12, 41, 51, 12, 24))
+  val country = Seq(Seq(1,2,3,4,5),
+    Seq("USA", "Pakistan", "Germany", "Turkey", "France"))
+
+  val city = Seq(Seq(1,2,3,4,5,6,7),
+    Seq("New York", "Karachi", "Lahore", "Berlin", "Izmir", "Munchen", "California"),
+    Seq(1,2,2,3,4,3,1),
+    Seq(19, 32, 12, 41, 51, 12, 24))
 
   val countryColumns = List("Id", "Country Name")
   val cityColumns = List("City Id", "City Name", "Country Id", "Population")
@@ -38,5 +43,15 @@ class JoinTest   extends AnyFlatSpec with should.Matchers
     val secDf = DataFrame(city, cityColumns)
 
     the [IllegalArgumentException] thrownBy(mainDf.inner(secDf, "Id", "Population", (x: Int, y: Int) => x == y))
+  }
+
+  "Left join" should "give Empty right columns" in {
+    val mainDf = DataFrame(country, countryColumns)
+    val secDf = DataFrame(city, cityColumns)
+
+    val left = mainDf.left(secDf, "Id", "Country Id", (x: Int, y: Int) => x == y)
+    val result1 = left.columns("Country Name")
+    result1.data(0) should be (Seq("USA", "USA", "Pakistan", "Pakistan", "Germany", "Germany", "Turkey", "France"))
+    left.locate(0).data should be (Seq(Seq(1), Seq("USA"), Seq(1), Seq("New York"), Seq(1), Seq(19)))
   }
 }
