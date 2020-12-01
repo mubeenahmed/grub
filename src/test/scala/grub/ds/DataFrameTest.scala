@@ -137,4 +137,15 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
     byColumn.data(1)(2) should be (24.5)
   }
 
+  it should "convert the type of dataframe" in {
+    val columns = Seq[String]("Serial", "Value")
+    val data = List(singleIntList, singleDoubleList)
+    val dataFrame: DataFrame[Any] = DataFrame(data, columns, RangeIndex(ends = singleIntList.size))
+
+    dataFrame.asType[Int]("Serial").data should be (Seq(Seq(1,2,3,5)))
+    dataFrame.asType[Double]("Value").data should be (Seq(Seq(20.1, 24.1, 24.5, 26.9)))
+
+    the [IllegalArgumentException] thrownBy(dataFrame.asType[Double]("Random X")) should have message ("No valid key for column Random X")
+  }
+
 }

@@ -22,12 +22,10 @@ object Filtering {
    */
   implicit class FilteringImplicit[V: Typeable](val dataFrame: DataFrame[V]) {
 
-    def === [T <: V](value: T): DataFrame[V] = {
-      val df: Seq[Seq[V]] = execute(x => x == value)
+    def filter[T <: Double](fn: V => Boolean): DataFrame[V] = {
+      val df: Seq[Seq[V]] = dataFrame.data.map(x => x.filter(y => fn(y)))
       DataFrame(df, dataFrame.columns.all)
     }
 
-    private def execute(fn: V => Boolean): Seq[Seq[V]] =
-      dataFrame.data.map(x => x.filter(fn(_)))
   }
 }
