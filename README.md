@@ -64,7 +64,8 @@ There are other method to manipulate different data in dataframe for example
 3. ```def deleteRow[T](index: T): DataFrame[V]```
 4. ```def deleteColumn(colName: String): DataFrame[V]```
 5. ```def append(df: DataFrame[V]): DataFrame[V]```
-6. ```def === [T <: V](value: T): DataFrame[V]```
+6. ```def filter [T](x: T => Boolean): DataFrame[V]```
 7. ```def inner[T](df: DataFrame[V], leftColumn: String, rightColumn: String, ops: (T, T) => Boolean): DataFrame[V]```
 8. ```def left[T](df: DataFrame[V], leftColumn: String, rightColumn: String, ops: (T, T) => Boolean): DataFrame[V]```
+9. ```def right[T](df: DataFrame[V], leftColumn: String, rightColumn: String, ops: (T, T) => Boolean): DataFrame[V]```
 
