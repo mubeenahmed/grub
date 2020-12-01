@@ -59,6 +59,27 @@ object Join {
       DataFrame(t, dataFrame.columns.all ++ df.columns.all)
     }
 
+    /**
+     * Right join, returns the common elements between with uncommon right dataframe column if no common on left
+     * @param df
+     * @param leftColumn
+     * @param rightColumn
+     * @param ops
+     * @tparam T
+     * @return
+     */
+    def right[T](df: DataFrame[V], leftColumn: String, rightColumn: String, ops: (T, T) => Boolean): DataFrame[V] = {
+      val leftColumnData: Seq[V] = dataFrame.columns(leftColumn).single
+      val rightColumnData: Seq[V] = df.columns(rightColumn).single
+
+      val toMerge: Seq[(Int, Option[Int])] = joinCondition[T](rightColumnData, leftColumnData, ops)
+      val data: Seq[Seq[Seq[V]]] = rightExtractRowData(df, toMerge)
+
+      val t: Seq[Seq[V]] = data.flatMap(x => x.transpose).transpose
+      DataFrame(t, dataFrame.columns.all ++ df.columns.all)
+    }
+
+
     private def joinCondition[T](leftColumnData: Seq[V], rightColumnData: Seq[V], ops: (T, T) => Boolean) = {
       leftColumnData.zipWithIndex.collect { left =>
         val right = rightColumnData.zipWithIndex
@@ -91,7 +112,15 @@ object Join {
       data
     }
 
-    private def mergeDataFrame(left: Int, right: Option[Int], df: DataFrame[V]): Seq[Seq[V]] = {
+    private def rightExtractRowData(df: DataFrame[V], toMerge: Seq[(Int, Option[Int])]) = {
+      val data: Seq[Seq[Seq[V]]] = for {
+        (left, right) <- toMerge
+        row = mergeDataFrame(left, right, this.dataFrame, df)
+      } yield row
+      data
+    }
+
+    private def mergeDataFrame(left: Int, right: Option[Int], df: DataFrame[V], dataFrame: DataFrame[V] = this.dataFrame): Seq[Seq[V]] = {
       val leftData: Seq[Seq[V]] = dataFrame.locateRow(left).data
       if(right.isDefined) {
         val rightData: Seq[Seq[V]] = df.locateRow(right.get).data
