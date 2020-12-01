@@ -54,4 +54,15 @@ class JoinTest   extends AnyFlatSpec with should.Matchers
     result1.data(0) should be (Seq("USA", "USA", "Pakistan", "Pakistan", "Germany", "Germany", "Turkey", "France"))
     left.locate(0).data should be (Seq(Seq(1), Seq("USA"), Seq(1), Seq("New York"), Seq(1), Seq(19)))
   }
+
+
+  "Right join" should "give Empty left columns" in {
+    val mainDf = DataFrame(country, countryColumns)
+    val secDf = DataFrame(city, cityColumns)
+
+    val left = mainDf.right(secDf, "Id", "Country Id", (x: Int, y: Int) => x == y)
+    val result1 = left.columns("Country Name")
+    result1.data(0) should be (Seq("New York", "Karachi", "Lahore", "Berlin", "Izmir", "Munchen", "California"))
+    left.locate(0).data should be (Seq(Seq(1), Seq("New York"), Seq(1), Seq(19), Seq(1), Seq("USA")))
+  }
 }
