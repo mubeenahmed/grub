@@ -54,6 +54,15 @@ class DataFrame[V](val data: Seq[Seq[V]],
    * @return
    */
   def single: Seq[V] = data(0)
+
+  /**
+   * When multiple different type of data is used, the type used are parent class, for example
+   * if your dataframe contains mixture of integers and doubles, floats then the dataframe type will be AnyVal
+   * if your dataframe contains string and mixture of integer and doubles then the dataframe type will be Any
+   * therefore to used a single column with explicily defining their type can be handy.
+   */
+  def asType[T](column: String): DataFrame[T] =
+    DataFrame(Seq(this.columns(column).data(0).map(_.asInstanceOf[T])), List(column))
 }
 
 /**
@@ -66,7 +75,8 @@ object DataFrame
    * @tparam V
    * @return
    */
-  def apply[V](): DataFrame[V] = new DataFrame[V](Seq(), Columns(), EmptyIndex)
+  def apply[V](): DataFrame[V] =
+    new DataFrame[V](Seq(), Columns(), EmptyIndex)
 
   /**
    * Creates datdframe with data and default columns and default index
@@ -74,7 +84,8 @@ object DataFrame
    * @tparam V
    * @return
    */
-  def apply[V](data: Seq[Seq[V]]) = new DataFrame[V](data, Columns(data.size), RangeIndex(ends = data(0).size))
+  def apply[V](data: Seq[Seq[V]]) =
+    new DataFrame[V](data, Columns(data.size), RangeIndex(ends = data(0).size))
 
   /**
    * Creates dataframe with data, specified columns and default index
@@ -83,7 +94,8 @@ object DataFrame
    * @tparam V
    * @return
    */
-  def apply[V](data: Seq[Seq[V]], column: Seq[String]): DataFrame[V] = new DataFrame[V](data, Columns(column, data.size), RangeIndex(ends = data(0).size))
+  def apply[V](data: Seq[Seq[V]], column: Seq[String]): DataFrame[V] =
+    new DataFrame[V](data, Columns(column, data.size), RangeIndex(ends = data(0).size))
 
   /**
    * Creates dataframe with data, specified columns and specified index
@@ -93,5 +105,6 @@ object DataFrame
    * @tparam V
    * @return
    */
-  def apply[V](data: Seq[Seq[V]], columns: Seq[String], index: Index): DataFrame[V] = new DataFrame[V](data, Columns(columns, data.size), index)
+  def apply[V](data: Seq[Seq[V]], columns: Seq[String], index: Index): DataFrame[V] =
+    new DataFrame[V](data, Columns(columns, data.size), index)
 }

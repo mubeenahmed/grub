@@ -22,15 +22,6 @@ object Filtering {
    */
   implicit class FilteringImplicit[V: Typeable](val dataFrame: DataFrame[V]) {
 
-<<<<<<< Updated upstream
-    def === [T <: V](value: T): DataFrame[V] = {
-      val df: Seq[Seq[V]] = execute(x => x == value)
-      DataFrame(df, dataFrame.columns.all)
-    }
-
-    private def execute(fn: V => Boolean): Seq[Seq[V]] =
-      dataFrame.data.map(x => x.filter(fn(_)))
-=======
     def fill[T <: V](value: T, columns: List[String]): DataFrame[V] = {
       val indexes: List[Int] =
         columns.map(x => dataFrame.columns.get(x))
@@ -49,6 +40,6 @@ object Filtering {
 
 
     private def isNAN(e: V): Boolean = e == null || (e != null && e == "") || (e != null && e == None)
->>>>>>> Stashed changes
+
   }
 }
