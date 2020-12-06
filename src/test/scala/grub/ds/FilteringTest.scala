@@ -17,4 +17,22 @@ class FilteringTest extends AnyFlatSpec with should.Matchers
     dfilter.data should be (Seq(Seq(4)))
   }
 
+<<<<<<< Updated upstream
+=======
+  "Filtering" should "return fill Na" in {
+    val data = Seq(Seq("A", "", null, None), Seq(1,2,3,null))
+    val df = DataFrame(data)
+    val filled = df.fill(0, List("1"))
+
+    filled.data(1) should be (Seq(1,2,3,0))
+
+    val filled2 = df.fill(0, List("0", "1"))
+    filled2.data(0) should be (Seq("A", 0, 0, 0))
+    filled2.data(1) should be (Seq(1,2,3,0))
+
+
+    val filled3 = df.fill("0", List("0"))
+    filled3.data(0) should be (Seq("A", "0", "0", "0"))
+  }
+>>>>>>> Stashed changes
 }
