@@ -33,7 +33,7 @@ object CrudOps {
       val i = dataFrame.index.get(index)
       val newRows: Seq[Seq[V]] = for {
         cols <- dataFrame.data
-        newRow = cols.zipWithIndex.filter(x => x._2 == i).map(x => x._1)
+        newRow = cols.zipWithIndex.filter(x => x._2 != i).map(x => x._1)
       } yield newRow
 
       dataFrame.index.index.remove(index)

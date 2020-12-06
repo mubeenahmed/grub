@@ -52,11 +52,15 @@ class CrudOpsTest extends AnyFlatSpec with should.Matchers {
     the [IllegalArgumentException] thrownBy(dfWithDeletedRecord.columns.get(colName))
   }
 
-  "Removing row" should "delete the row" in {
+  "Removing row" should "throw an exception because invalid index" in {
     val index = 1
     val removedRow = df.deleteRow(index)
-    the [IllegalArgumentException] thrownBy(removedRow.locate(index))
+    val rowSize = df.data(0).size
+    val afterDeletedRowSize = removedRow.data(0).size
+    rowSize should be (afterDeletedRowSize + 1)
   }
+
+//  "Removing row" should "delete the row"
 
   "Appending dataframe" should "append rows with their index" in {
     val appended = df.append(df)
