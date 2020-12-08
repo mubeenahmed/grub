@@ -33,13 +33,33 @@ object Filtering {
       DataFrame(data, dataFrame.columns.all)
     }
 
+    def drop[T <: V](value: T): DataFrame[V] = {
+      val newData = dropByIndex(value, dataFrame.data)
+      DataFrame(newData)
+    }
+
     def filter[T <: Double](fn: V => Boolean): DataFrame[V] = {
       val df: Seq[Seq[V]] = dataFrame.data.map(x => x.filter(y => fn(y)))
       DataFrame(df, dataFrame.columns.all)
     }
 
-
     private def isNAN(e: V): Boolean = e == null || (e != null && e == "") || (e != null && e == None)
 
+    private def dropByIndex[T](value: T, data: Seq[Seq[V]]): Seq[Seq[V]] = {
+
+      val indexes: Seq[Int] = for {
+        first <- data
+        index <- first.zipWithIndex if index._1 == value
+      } yield index._2
+
+      if(indexes.size == 0) {
+        data
+      }
+      else {
+        val index = indexes.take(1)(0)
+        val newDF = data.map(x => x.zipWithIndex.filter(e => e._2 != index).map(x => x._1))
+        dropByIndex(value, newDF)
+      }
+    }
   }
 }

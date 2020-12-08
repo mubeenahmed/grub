@@ -40,4 +40,17 @@ class FilteringTest extends AnyFlatSpec with should.Matchers
     val filled3 = df.fill("0", List("0"))
     filled3.data(0) should be (Seq("A", "0", "0", "0"))
   }
+
+  "Filtering" should "drop values" in {
+    val data = Seq(Seq(1,2,null, 4,3, null))
+    val df = DataFrame(data)
+
+    val dropped1 = df.drop(null)
+    dropped1.data(0) should be (Seq(1,2,4,3))
+
+    val data1 = Seq(Seq(1,2,null, 3), Seq("A", "B", "C", null))
+    val df2 = DataFrame(data1)
+    val dropped2 = df2.drop(null)
+    dropped2.data should be (Seq(Seq(1,2), Seq("A", "B")))
+  }
 }
