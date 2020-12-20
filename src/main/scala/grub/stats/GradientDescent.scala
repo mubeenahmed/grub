@@ -5,10 +5,23 @@ import shapeless.Typeable
 
 import scala.util.Random
 
+/**
+ * Gradient Descent for optimizing the loss and to find coefficients values for the given x and y
+ * @param x
+ * @param y
+ * @param numeric$T$0
+ * @tparam T
+ */
 class GradientDescent[T: Numeric](x: Seq[T], y: Seq[T]) {
 
   def stochasticGradientDescent[T](x: Seq[T], y: Seq[T], epoc: Int = 100): Double = ???
-
+  
+  /**
+   * Simple Gradient Descent implementation, with parameter learningRate and iteration.
+   * @param learningRate
+   * @param iteration
+   * @return
+   */
   def simpleGradientDescent(learningRate: Double = 0.002,
                             iteration: Int = 1000): (T, T) =
   {
