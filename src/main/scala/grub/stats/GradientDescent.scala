@@ -15,7 +15,7 @@ import scala.util.Random
 class GradientDescent[T: Numeric](x: Seq[T], y: Seq[T]) {
 
   def stochasticGradientDescent[T](x: Seq[T], y: Seq[T], epoc: Int = 100): Double = ???
-  
+
   /**
    * Simple Gradient Descent implementation, with parameter learningRate and iteration.
    * @param learningRate
@@ -47,10 +47,18 @@ class GradientDescent[T: Numeric](x: Seq[T], y: Seq[T]) {
 
       weight0 = numeric.minus(weight0, numeric.times(learningRate.asInstanceOf[T], sDa))
       weight1 = numeric.minus(weight1, numeric.times(learningRate.asInstanceOf[T], sDb))
-
       iter = iter + 1
     }
 
     (weight0, weight1)
   }
+
+}
+
+trait GD { def name: String }
+case object SimpleGD extends GD {
+  override def name: String = "SGD"
+}
+case object StochasticGD extends GD {
+  override def name: String = "SGD"
 }
