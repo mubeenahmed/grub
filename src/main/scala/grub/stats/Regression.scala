@@ -16,11 +16,19 @@ object Regression {
       val x: Seq[V]= df.columns(xColName).single
       val y: Seq[V] = df.columns(yColName).single
 
-      val (intercept, slope) = gdType match {
-        case SimpleGD => new GradientDescent(x, y).simpleGradientDescent(learningRate, iteration)
-      }
+//      val (intercept, slope) = gdType match {
+//        case SimpleGD => new GradientDescent(x, y).simpleGradientDescent(learningRate, iteration)
+//        case StochasticGD => ???
+//      }
       val numeric = implicitly[Numeric[V]]
-      numeric.plus(intercept, numeric.times(slope, value.asInstanceOf[V])).asInstanceOf[Double]
+      ???
+//      numeric.plus(intercept, numeric.times(slope, value.asInstanceOf[V])).asInstanceOf[Double]
+    }
+  }
+
+  implicit class MultipleLinearRegression[V: Typeable](val df: DataFrame[V])(implicit num: Numeric[V]) {
+    def predict(value: Double, xColName: Seq[String], yColName: String, gdType: GD): Double = {
+      ???
     }
   }
 }

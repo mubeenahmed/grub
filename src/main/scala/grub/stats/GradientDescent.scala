@@ -12,7 +12,9 @@ import scala.util.Random
  * @param numeric$T$0
  * @tparam T
  */
-class GradientDescent[T: Numeric](x: Seq[T], y: Seq[T]) {
+class GradientDescent[T: Numeric](x: Seq[Seq[T]], y: Seq[T]) {
+
+  private val numeric = implicitly[Numeric[T]]
 
   def stochasticGradientDescent[T](x: Seq[T], y: Seq[T], epoc: Int = 100): Double = ???
 
@@ -23,35 +25,41 @@ class GradientDescent[T: Numeric](x: Seq[T], y: Seq[T]) {
    * @return
    */
   def simpleGradientDescent(learningRate: Double = 0.002,
-                            iteration: Int = 1000): (T, T) =
+                            iteration: Int = 1000): Seq[T] =
   {
-    var weight0 = new Random().nextDouble().asInstanceOf[T]
-    var weight1 = new Random().nextDouble().asInstanceOf[T]
+    val i = x.size
+    val m = x(0).size
 
-    val numeric = implicitly[Numeric[T]]
+    val weight0 = new Random().nextDouble().asInstanceOf[T]
+    var weight1: Seq[T] = weight0 +: x.map(_ => new Random().nextDouble().asInstanceOf[T])
 
+    val xb: Seq[Seq[T]] = x(0).map(_ => numeric.fromInt(1)) +: x
     var iter = 0
     while(iter <= iteration) {
-      val yp: Seq[T] = x.map(x0 => numeric.plus(weight0, numeric.times(x0, weight1)))
+      val weights = for {
+        w <- weight1.zipWithIndex
+        cost = this.hTheta(m, weight1, xb).zipWithIndex
+          .map(h => numeric.minus(h._1, y(h._2)))
+          .zipWithIndex
+          .map(x => numeric.times(x._1.asInstanceOf[T], xb(w._2)(x._2)))
+          .reduce((e1, e2) => numeric.plus(e1, e2))
+        normalize = numeric.times(learningRate.asInstanceOf[T], cost).asInstanceOf[Double] / m
+        newWeight = numeric.minus(w._1, normalize.asInstanceOf[T])
+      } yield newWeight
 
-      val differences: Seq[(T, T)] = yp.zipWithIndex.map(p => {
-        val diff = numeric.minus(y(p._2), p._1)
-        val minus1 = numeric.fromInt(-1)
-        val a = numeric.times(diff, minus1)
-        val b = numeric.times(numeric.times(diff, x(p._2)), minus1)
-        (a,b)
-      })
-
-      val sDa = differences.map(_._1).reduce(numeric.plus(_, _))
-      val sDb = differences.map(_._2).reduce(numeric.plus(_, _))
-
-      weight0 = numeric.minus(weight0, numeric.times(learningRate.asInstanceOf[T], sDa))
-      weight1 = numeric.minus(weight1, numeric.times(learningRate.asInstanceOf[T], sDb))
       iter = iter + 1
+      weight1 = weights
     }
-
-    (weight0, weight1)
+    weight1
   }
+
+  private def hTheta(m: Int, weights: Seq[T], xb: Seq[Seq[T]]): Seq[T] =
+    for {
+      mi <- 0 until m
+      hT = weights.zipWithIndex
+        .map(w => numeric.times(xb(w._2)(mi), w._1))
+        .reduce((e1, e2) => numeric.plus(e1, e2))
+    } yield hT
 
 }
 
