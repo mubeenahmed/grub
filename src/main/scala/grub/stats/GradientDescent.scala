@@ -38,10 +38,7 @@ class GradientDescent[T: Numeric](x: Seq[Seq[T]], y: Seq[T]) {
     while(iter <= iteration) {
       val weights = for {
         w <- weight1.zipWithIndex
-        cost = this.hTheta(m, weight1, xb).zipWithIndex
-          .map(h => numeric.minus(h._1, y(h._2)))
-          .zipWithIndex
-          .map(x => numeric.times(x._1.asInstanceOf[T], xb(w._2)(x._2)))
+        cost = this.hTheta(m, weight1, xb, y, w._2)
           .reduce((e1, e2) => numeric.plus(e1, e2))
         normalize = numeric.times(learningRate.asInstanceOf[T], cost).asInstanceOf[Double] / m
         newWeight = numeric.minus(w._1, normalize.asInstanceOf[T])
@@ -53,13 +50,15 @@ class GradientDescent[T: Numeric](x: Seq[Seq[T]], y: Seq[T]) {
     weight1
   }
 
-  private def hTheta(m: Int, weights: Seq[T], xb: Seq[Seq[T]]): Seq[T] =
+  private def hTheta(m: Int, weights: Seq[T], xb: Seq[Seq[T]], y: Seq[T], wi: Int): Seq[T] =
     for {
       mi <- 0 until m
       hT = weights.zipWithIndex
         .map(w => numeric.times(xb(w._2)(mi), w._1))
         .reduce((e1, e2) => numeric.plus(e1, e2))
-    } yield hT
+      sse = numeric.minus(hT, y(mi))
+      cost = numeric.times(sse, xb(wi)(mi))
+    } yield cost
 
 }
 
