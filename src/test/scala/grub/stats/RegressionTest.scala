@@ -20,27 +20,31 @@ class RegressionTest extends AnyFlatSpec with should.Matchers
 
     val expected = 0.5856612689040677
 
-    val p = df2.predict(List(0.63), List("A"), "B", SimpleGD)
+    implicit val weights = df2.fit(List("A"), "B", SimpleGD)
+    val p = df2.predict(List(0.63))
     implicit val doubleEq = TolerantNumerics.tolerantDoubleEquality(p)
     p should not be (Double.NaN)
     expected === p should be (true)
 
     for (i <- 1 to 100) {
-      val p2 = df2.predict(List(0.63), List("A"), "B", SimpleGD)
+      df2.fit(List("A"), "B", SimpleGD)
+      val p2 = df2.predict(List(0.63))
       p2 should not be (Double.NaN)
       expected === p2 should be(true)
     }
 
   }
 
-//  it should "give prediction" in {
-//    val df = DataFrame(Seq(x2.map(x => x / 10000), y2.map(x => x / 10000)), Seq("House", "Price"))
-//    val p2 = df.predict(List(415000 / 10000), List("House"), "Price", SimpleGD)
-//    implicit val doubleEq = TolerantNumerics.tolerantDoubleEquality(p2)
-//    for (i <- 1 to 100) {
-//      val p3 = df.predict(List(415000 / 10000), List("House"), "Price", SimpleGD)
-//      p3 should not be (Double.NaN)
-//      p2 === p3 should be(true)
-//    }
-//  }
+  it should "give prediction" in {
+    val df = DataFrame(Seq(x2.map(x => x / 10000), y2.map(x => x / 10000)), Seq("House", "Price"))
+    implicit val weights = df.fit(List("House"), "Price", SimpleGD)
+    val p2 = df.predict(List(415000 / 10000))
+    implicit val doubleEq = TolerantNumerics.tolerantDoubleEquality(p2)
+    for (i <- 1 to 100) {
+      df.fit(List("House"), "Price", SimpleGD)
+      val p3 = df.predict(List(415000 / 10000))
+      p3 should not be (Double.NaN)
+      p2 === p3 should be(true)
+    }
+  }
 }

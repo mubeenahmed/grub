@@ -148,4 +148,11 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
     the [IllegalArgumentException] thrownBy(dataFrame.asType[Double]("Random X")) should have message ("No valid key for column Random X")
   }
 
+  it should "print the dataframe" in {
+    val columns = Seq[String]("Serial", "Value")
+    val data = List(singleIntList, singleDoubleList)
+    val dataFrame: DataFrame[Any] = DataFrame(data, columns, RangeIndex(ends = singleIntList.size))
+    dataFrame.print()
+  }
+
 }

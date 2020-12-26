@@ -63,6 +63,26 @@ class DataFrame[V](val data: Seq[Seq[V]],
    */
   def asType[T](column: String): DataFrame[T] =
     DataFrame(Seq(this.columns(column).data(0).map(_.asInstanceOf[T])), List(column))
+
+  def print: Unit = {
+    for(_ <- 0 to columns.all.reduce((e1, e2) => e1 + e2).size) {
+      printf("==")
+    }
+    println()
+    for(name <- columns.all) {
+      printf(s"""| ${name} """)
+    }
+    printf(" | ")
+    println()
+    for(row <- data(0).zipWithIndex) {
+      for(col <- data) {
+        printf(" | ")
+        printf(col(row._2).toString)
+        printf(" | ")
+      }
+      println()
+    }
+  }
 }
 
 /**
