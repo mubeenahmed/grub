@@ -69,12 +69,16 @@ class DataFrame[V](val data: Seq[Seq[V]],
       printf("==")
     }
     println()
+    printf("Indexes | ")
     for(name <- columns.all) {
       printf(s"""| ${name} """)
     }
     printf(" | ")
     println()
-    for(row <- data(0).zipWithIndex) {
+
+    val i = index.index.map(x => x._1)
+    val d = Seq(i) ++ data
+    for(row <- d(0).zipWithIndex) {
       for(col <- data) {
         printf(" | ")
         printf(col(row._2).toString)

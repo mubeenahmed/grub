@@ -149,10 +149,11 @@ class DataFrameTest extends AnyFlatSpec with should.Matchers {
   }
 
   it should "print the dataframe" in {
-    val columns = Seq[String]("Serial", "Value")
-    val data = List(singleIntList, singleDoubleList)
+    val columns = Seq[String]("Serial", "Value", "Value 2", "Value 3")
+    val data = List(singleIntList, singleDoubleList, Seq("Long string 1", "Long string 2", "Long string 3", "Long string 4"),
+      Seq(1.00, 2.00, 3.00, 4.00))
     val dataFrame: DataFrame[Any] = DataFrame(data, columns, RangeIndex(ends = singleIntList.size))
-    dataFrame.print()
+    dataFrame.print
   }
 
 }
