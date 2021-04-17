@@ -1,7 +1,7 @@
 package grub.ds
 
 /**
- * A concrete class for manipulating data in rows and column style. This class holds the data and behavior
+ * A concrete class for manipulating data in rows and columns style. This class holds the data and behavior
  * to manipulate the data. The generic type here can be either Int or Double or String
  * (if all the data is integer or double or string) otherwise use Any
  * @constructor data which is 2D sequence, columns the header of data, index the rows pointers

@@ -3,9 +3,22 @@ package grub.ds
 import org.knowm.xchart.{SwingWrapper, XYChart, XYChartBuilder}
 import shapeless.Typeable
 
+/**
+ * A class for visualizing data, create the chart and displays using JFrame
+ */
 object Visualize {
   implicit class VisualizeImplicit[V: Typeable](dataFrame: DataFrame[V]) {
 
+    /**
+     * Creates Line Chart
+     * @param title
+     * @param xName
+     * @param yName
+     * @param seriesName
+     * @param xCol
+     * @param yCol
+     * @return
+     */
     def createChart(title: String = "Chart 1",
                     xName: String = "X-Axis",
                     yName: String = "Y-Axis",
@@ -26,16 +39,13 @@ object Visualize {
       chart
     }
 
-    def displayPlot(title: String = "Chart 1",
-                    xName: String = "X-Axis",
-                    yName: String = "Y-Axis",
-                    seriesName: String = "f = y(x)",
-                    xCol: List[String],
-                    yCol: String): Unit =
+    /**
+     * Displays swing (JFrame) chart
+     * @param chart
+     */
+    def displayPlot(chart: XYChart): Unit =
     {
-      val chart = createChart(title,xName, yName, seriesName, xCol, yCol)
       new SwingWrapper(chart).displayChart()
-      while(true) {}
     }
   }
 }

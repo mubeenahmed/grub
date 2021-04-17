@@ -3,9 +3,9 @@ package grub.ds
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 import grub.ds.Visualize.VisualizeImplicit
+import org.knowm.xchart.XYChart
 import org.scalatest.Ignore
 
-@Ignore
 class VisualizeTest extends AnyFlatSpec with should.Matchers {
 
   val rating = Seq(1.0, 2.0, 3.5, 2.5)
@@ -14,7 +14,8 @@ class VisualizeTest extends AnyFlatSpec with should.Matchers {
 
   "Data frame" should "should display JFrame visualize data" in {
     val df: DataFrame[Double] = DataFrame(Seq(rating, commenting, users))
-    df.displayPlot(xCol = List("0", "1"), yCol = "2")
+    val chart: XYChart = df.createChart(xCol = List("0", "1"), yCol = "2")
+    chart should not be (null)
   }
 
 }
